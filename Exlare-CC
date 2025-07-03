@@ -1,0 +1,404 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Pixeluted/adoniscries/main/Source.lua",true))()
+
+getgenv().exlare = getgenv().exlare or {}
+local exlare = getgenv().exlare
+
+exlare.camlock = {
+    enabled = true,
+    target = nil,
+    targetPart = "HumanoidRootPart",
+    prediction = 0.159,
+    jumpOffset = 0.8,
+    smoothness = 0.405
+}
+
+exlare.autoair = {
+	enabled = true,
+	cooldown = 0.4,
+	lastShotTime = 0
+}
+
+exlare.targetaim = {
+    enabled = true,
+    target = nil,
+    targetPart = "HumanoidRootPart",
+    prediction = 0.19901461,
+    airOffset = -0.72
+}
+
+-- // exlare loader
+local TweenService = game:GetService("TweenService")
+local Lighting = game:GetService("Lighting")
+local Players = game:GetService("Players")
+
+local blur = Instance.new("BlurEffect", Lighting)
+blur.Size = 0
+
+TweenService:Create(blur, TweenInfo.new(1), { Size = 24 }):Play()
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "ExlareLoader"
+gui.IgnoreGuiInset = true
+gui.ResetOnSpawn = false
+gui.Parent = game:GetService("CoreGui")
+
+local centerFrame = Instance.new("Frame", gui)
+centerFrame.BackgroundTransparency = 1
+centerFrame.Size = UDim2.new(1, 0, 1, 0)
+
+local image = Instance.new("ImageLabel", centerFrame)
+image.Image = "rbxassetid://91314061711549"
+image.Size = UDim2.new(0, 150, 0, 150)
+image.Position = UDim2.new(0.5, -75, 0.5, -110)
+image.BackgroundTransparency = 1
+
+local text = Instance.new("TextLabel", centerFrame)
+text.Text = "Exlare"
+text.Font = Enum.Font.Code
+text.TextSize = 22
+text.TextColor3 = Color3.fromRGB(255, 255, 255)
+text.BackgroundTransparency = 1
+text.Size = UDim2.new(0, 200, 0, 50)
+text.Position = UDim2.new(0.5, -100, 0.5, 30)
+
+task.delay(3.5, function()
+	TweenService:Create(blur, TweenInfo.new(1), { Size = 0 }):Play()
+	TweenService:Create(image, TweenInfo.new(1), { ImageTransparency = 1 }):Play()
+	TweenService:Create(text, TweenInfo.new(1), { TextTransparency = 1 }):Play()
+	task.wait(1.2)
+	blur:Destroy()
+	gui:Destroy()
+end)
+
+print([[
+___________      .__                        
+\_   _____/__  __|  | _____ _______   ____  
+ |    __)_\  \/  /  | \__  \\_  __ \_/ __ \ 
+ |        \>    <|  |__/ __ \|  | \/\  ___/ 
+/_______  /__/\_ \____(____  /__|    \___  >
+        \/      \/         \/            \/ 
+]])
+
+-- Services Do not delete
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
+
+-- // label
+local Players = game:GetService("Players")
+local CoreGui = game:GetService("CoreGui")
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = CoreGui
+
+local Label = Instance.new("TextLabel")
+Label.Parent = ScreenGui
+Label.Size = UDim2.new(0, 200, 0, 30)
+Label.Position = UDim2.new(0.5, -100, 0.1, 0)
+Label.BackgroundTransparency = 1
+Label.Text = "Join Discord https://discord.gg/exlare"
+Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+Label.TextScaled = true
+Label.Font = Enum.Font.SourceSansBold
+
+Players.LocalPlayer.CharacterAdded:Connect(function()
+    ScreenGui.Parent = CoreGui
+end)
+
+-- Notification system
+local Notification = Instance.new("ScreenGui")
+Notification.Name = "Notification"
+Notification.Parent = game.CoreGui
+Notification.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+local Holder = Instance.new("Frame")
+Holder.Name = "Holder"
+Holder.Parent = Notification
+Holder.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+Holder.BackgroundTransparency = 1
+Holder.Position = UDim2.new(1, -10, 0, 10)
+Holder.AnchorPoint = Vector2.new(1, 0)
+Holder.Size = UDim2.new(0, 243, 0, 240)
+
+local UIListLayout = Instance.new("UIListLayout")
+UIListLayout.Parent = Holder
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 4)
+
+local function createNotificationTemplate(text, duration)
+    local Template = Instance.new("Frame")
+    local ColorBar = Instance.new("Frame")
+    local TextLabel = Instance.new("TextLabel")
+
+    Template.Name = text
+    Template.Parent = Holder
+    Template.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Template.BorderSizePixel = 0
+    Template.Size = UDim2.new(1, 0, 0, 22)
+    Template.Transparency = 1
+
+    ColorBar.Name = "ColorBar"
+    ColorBar.Parent = Template
+    ColorBar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    ColorBar.BorderSizePixel = 0
+    ColorBar.Size = UDim2.new(0, 2, 0, 22)
+    ColorBar.Transparency = 1
+
+    TextLabel.Parent = Template
+    TextLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    TextLabel.BackgroundTransparency = 1
+    TextLabel.BorderSizePixel = 0
+    TextLabel.Position = UDim2.new(0, 8, 0, 0)
+    TextLabel.Size = UDim2.new(1, -10, 0, 22)
+    TextLabel.Font = Enum.Font.Code
+    TextLabel.Text = text .. " [" .. duration .. "s]"
+    TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TextLabel.TextSize = 12
+    TextLabel.TextStrokeTransparency = 0
+    TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+    TextLabel.Transparency = 1
+
+    return Template, ColorBar, TextLabel
+end
+
+function notify(text, time)
+    if time <= 0 then
+        warn("Notification duration must be greater than 0")
+        return
+    end
+
+    local Template, ColorBar, TextLabel = createNotificationTemplate(text, time)
+
+    local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    local fadeInGoal = {Transparency = 0}
+    local fadeOutGoal = {Transparency = 1}
+
+    TweenService:Create(Template, tweenInfo, fadeInGoal):Play()
+    TweenService:Create(ColorBar, tweenInfo, fadeInGoal):Play()
+    TweenService:Create(TextLabel, tweenInfo, fadeInGoal):Play()
+
+    local elapsed = 0
+    local updateConnection
+
+    updateConnection = RunService.RenderStepped:Connect(function(dt)
+        elapsed = elapsed + dt
+        local remainingTime = math.max(0, time - elapsed)
+        TextLabel.Text = text .. " [" .. string.format("%.1f", remainingTime) .. "s]"
+
+        if remainingTime <= 0 then
+            updateConnection:Disconnect()
+            TweenService:Create(Template, tweenInfo, fadeOutGoal):Play()
+            task.delay(0.5, function() Template:Destroy() end)
+        end
+    end)
+end
+
+-- function findnearestenemy do not delete
+local function FindNearestEnemy()
+	local closest = nil
+	local shortestDist = math.huge
+	for _, plr in ipairs(Players:GetPlayers()) do
+		if plr ~= LocalPlayer and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+			local pos = plr.Character.HumanoidRootPart.Position
+			local screenPos, onScreen = Camera:WorldToViewportPoint(pos)
+			if onScreen then
+				local dist = (Vector2.new(screenPos.X, screenPos.Y) - Camera.ViewportSize / 2).Magnitude
+				if dist < shortestDist then
+					shortestDist = dist
+					closest = plr
+				end
+			end
+		end
+	end
+	return closest
+end
+
+-- gui drawing do not delete
+local gui = Instance.new("ScreenGui")
+gui.Name = "CamLockGui"
+gui.ResetOnSpawn = false
+gui.Parent = game:GetService("CoreGui")
+
+local button = Instance.new("ImageButton")
+button.Name = "ExlareButton"
+button.Size = UDim2.new(0, 100, 0, 100)
+button.Position = UDim2.new(0, 10, 0, 10)
+button.Image = "rbxassetid://91314061711549"
+button.BackgroundTransparency = 1
+button.ImageColor3 = Color3.fromRGB(250, 250, 250)
+button.Parent = gui
+button.Active = true
+button.Draggable = true
+
+button.MouseButton1Click:Connect(function()
+	if exlare.camlock.enabled or exlare.targetaim.enabled then
+		-- Disable both
+		exlare.camlock.enabled = false
+		exlare.camlock.target = nil
+		exlare.targetaim.enabled = false
+		exlare.targetaim.target = nil
+		button.ImageColor3 = Color3.fromRGB(250, 250, 250)
+		notify("Exlare: Spared", 1)
+	else
+		-- Enable both and find target
+		local target = FindNearestEnemy()
+		if target then
+			exlare.camlock.enabled = true
+			exlare.camlock.target = target
+			exlare.targetaim.enabled = true
+			exlare.targetaim.target = target
+			button.ImageColor3 = Color3.fromRGB(255, 255, 255)
+			notify("Exlare: Locked " .. target.DisplayName, 1)
+		else
+			button.ImageColor3 = Color3.fromRGB(250, 250, 250)
+			notify("Exlare: No Target Found", 1)
+		end
+	end
+end)
+
+RunService.Heartbeat:Connect(function()
+    if not exlare.camlock.enabled then return end
+
+    local camTarget = exlare.camlock.target
+    if camTarget and camTarget.Character then
+        local camPart = camTarget.Character:FindFirstChild(exlare.camlock.targetPart)
+        if camPart then
+            local camPredicted = camPart.Position
+                + (camPart.Velocity * exlare.camlock.prediction)
+                + Vector3.new(0, exlare.camlock.jumpOffset, 0)
+
+            local camGoal = CFrame.new(Camera.CFrame.Position, camPredicted)
+            Camera.CFrame = Camera.CFrame:Lerp(camGoal, exlare.camlock.smoothness)
+        end
+    end
+
+-- this is auto air
+    if exlare.autoair.enabled and exlare.targetaim.enabled and exlare.targetaim.target then
+        local target = exlare.targetaim.target
+        if target and target.Character then
+            local part = target.Character:FindFirstChild(exlare.targetaim.targetPart)
+            if part and tick() - exlare.autoair.lastShotTime >= exlare.autoair.cooldown then
+                local predicted = part.Position
+                    + (part.Velocity * exlare.targetaim.prediction)
+
+                if predicted.Y - part.Position.Y > 1.5 then
+                    local char = Players.LocalPlayer.Character
+                    local tool = char and char:FindFirstChildOfClass("Tool")
+                    if tool then
+                        tool:Activate()
+                        exlare.autoair.lastShotTime = tick()
+                    end
+                end
+            end
+        end
+    end
+end)
+
+-- this is resolver
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+
+local resolverEnabled = false
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "ResolverGui"
+gui.Parent = game:GetService("CoreGui")
+
+local holder = Instance.new("Frame")
+holder.Name = "ResolverFrame"
+holder.Size = UDim2.new(0, 120, 0, 40)
+holder.Position = UDim2.new(0, 20, 0, 150)
+holder.BackgroundTransparency = 0.4
+holder.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+holder.BorderSizePixel = 0
+holder.Active = true
+holder.Draggable = true
+holder.Parent = gui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 10)
+corner.Parent = holder
+
+local resolverBtn = Instance.new("TextButton")
+resolverBtn.Name = "Resolver"
+resolverBtn.Text = "Resolver"
+resolverBtn.Font = Enum.Font.Code
+resolverBtn.TextSize = 14
+resolverBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+resolverBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+resolverBtn.Size = UDim2.new(1, -10, 1, -10)
+resolverBtn.Position = UDim2.new(0, 5, 0, 5)
+resolverBtn.Parent = holder
+
+local btnCorner = Instance.new("UICorner")
+btnCorner.CornerRadius = UDim.new(0, 8)
+btnCorner.Parent = resolverBtn
+
+resolverBtn.MouseButton1Click:Connect(function()
+	resolverEnabled = not resolverEnabled
+	resolverBtn.Text = resolverEnabled and "Resolver ON" or "Resolver OFF"
+end)
+
+RunService.Heartbeat:Connect(function()
+	if not resolverEnabled then return end
+
+	for _, Target in pairs(Players:GetPlayers()) do
+		if Target ~= LocalPlayer and Target.Character then
+			local Character = Target.Character
+			local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+
+			if Humanoid and Humanoid.MoveDirection.Magnitude > 0 then
+				local moveVelocity = Humanoid.MoveDirection * 16
+
+				local TargetParts = {
+					"HumanoidRootPart", "UpperTorso", "LowerTorso",
+					"LeftUpperLeg", "LeftLowerLeg", "RightUpperLeg", "RightLowerLeg",
+					"LeftUpperArm", "LeftLowerArm", "RightUpperArm", "RightLowerArm",
+					"LeftHand", "RightHand", "Head"
+				}
+
+				for _, partName in ipairs(TargetParts) do
+					local Part = Character:FindFirstChild(partName)
+					if Part then
+						Part.Velocity = moveVelocity
+						Part.AssemblyLinearVelocity = moveVelocity
+					end
+				end
+			end
+		end
+	end
+end)
+
+-- === METATABLE / TARGET ===
+local mt = getrawmetatable(game)
+local oldNameCall = mt.__namecall
+setreadonly(mt, false)
+
+mt.__namecall = newcclosure(function(Self, ...)
+    local args = {...}
+    local methodName = getnamecallmethod()
+
+    if not checkcaller() and methodName == "FireServer" and exlare.targetaim.enabled then
+      local target = exlare.targetaim.target
+        if target and target.Character then
+            local targetPart = target.Character[exlare.targetaim.targetPart]
+            if targetPart then
+                for i, arg in ipairs(args) do
+                    if typeof(arg) == "Vector3" then
+                        args[i] = targetPart.Position
+                            + targetPart.Velocity * exlare.targetaim.prediction
+                            + Vector3.new(0, exlare.targetaim.airOffset, 0)
+                        break
+                    end
+                end
+            end
+        end
+    end
+
+    return oldNameCall(Self, unpack(args))
+end)
+
+setreadonly(mt, true)
