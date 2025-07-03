@@ -3,29 +3,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Pixeluted/adoniscries
 getgenv().exlare = getgenv().exlare or {}
 local exlare = getgenv().exlare
 
-exlare.camlock = {
-    enabled = true,
-    target = nil,
-    targetPart = "HumanoidRootPart",
-    prediction = 0.159,
-    jumpOffset = 0.8,
-    smoothness = 0.405
-}
-
-exlare.autoair = {
-	enabled = true,
-	cooldown = 0.4,
-	lastShotTime = 0
-}
-
-exlare.targetaim = {
-    enabled = true,
-    target = nil,
-    targetPart = "HumanoidRootPart",
-    prediction = 0.19901461,
-    airOffset = -0.72
-}
-
 -- // exlare loader
 local TweenService = game:GetService("TweenService")
 local Lighting = game:GetService("Lighting")
